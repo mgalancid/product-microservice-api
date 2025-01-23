@@ -51,5 +51,16 @@ public class ProductServiceImpl implements ProductService {
         return new ProductEntityDTO(updatedProduct);
     }
 
+    public boolean existsByProduct(ProductEntity product) {
+        return productRepository.existsByProduct(product);
+    }
+
+    public boolean existsByStock(Integer stock) {
+        return productRepository.existsByStock(stock);
+    }
+
+    public ProductEntity findByName(String name) {
+        return productRepository.findByName(name);
+    }
 }
 

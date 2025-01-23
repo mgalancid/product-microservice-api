@@ -26,6 +26,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductEntityDTO> getProductsById(List<Long> ids) {
+        List<ProductEntity> products = productRepository.findAllById(ids); // Fetch products from DB
+        return products.stream()
+                .map(product -> new ProductEntityDTO(product))
+                .toList();
+    }
+
+    @Override
     public ProductEntityDTO createProduct(NewProductEntityDTO newProduct) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(newProduct.getName());

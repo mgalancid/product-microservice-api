@@ -39,7 +39,7 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @GetMapping
+    @GetMapping(value = "/products", params = "ids")
     public ResponseEntity<List<ProductEntityDTO>> getProductsByIds(@RequestParam List<Long> ids) {
         List<ProductEntityDTO> products = productService.getProductsById(ids);
         return ResponseEntity.ok(products);

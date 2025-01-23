@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository <ProductEntity, Long> {
     ProductEntity findByName(String name);
-    boolean existsByProduct();
-    boolean existsByStock();
+    boolean existsByProduct(ProductEntity product);
+    boolean existsByStock(Integer stock);
 }

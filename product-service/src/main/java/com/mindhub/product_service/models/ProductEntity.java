@@ -1,14 +1,20 @@
 package com.mindhub.product_service.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "Name of the product cannot be null")
     private String name;
+
+    @NotNull(message = "Description of the cannot be null")
     private String description;
+
     private Double price;
     private Integer stock;
 

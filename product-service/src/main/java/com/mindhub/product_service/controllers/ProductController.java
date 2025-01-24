@@ -2,6 +2,7 @@ package com.mindhub.product_service.controllers;
 
 import com.mindhub.product_service.dtos.NewProductEntityDTO;
 import com.mindhub.product_service.dtos.ProductEntityDTO;
+import com.mindhub.product_service.dtos.order.OrderItemDTO;
 import com.mindhub.product_service.services.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,12 @@ public class ProductController {
     public ResponseEntity<List<ProductEntityDTO>> getProductsByIds(@RequestParam List<Long> ids) {
         List<ProductEntityDTO> products = productService.getProductsById(ids);
         return ResponseEntity.ok(products);
+    }
+
+    @PatchMapping("/stock")
+    public ResponseEntity<Void> deductStock(@RequestBody List<OrderItemDTO> orderItemDTOs) {
+        productService.deductStock(orderItemDTOs);
+        return ResponseEntity.noContent().build();
     }
 }
 

@@ -8,11 +8,11 @@ public class NewProductEntityDTO {
     private Double price;
     private Integer stock;
 
-    public NewProductEntityDTO(ProductEntity product) {
-        this.name = product.getName();
-        this.description = product.getDescription();
-        this.price = product.getPrice();
-        this.stock = product.getStock();
+    public NewProductEntityDTO(String name, String description, Double price, Integer stock) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
     }
 
     public String getName() {

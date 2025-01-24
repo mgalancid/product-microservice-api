@@ -3,6 +3,7 @@ package com.mindhub.product_service.services.impl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mindhub.product_service.dtos.NewProductEntityDTO;
 import com.mindhub.product_service.dtos.ProductEntityDTO;
+import com.mindhub.product_service.dtos.order.OrderItemDTO;
 import com.mindhub.product_service.exceptions.InsufficientStockException;
 import com.mindhub.product_service.exceptions.ProductNotFoundException;
 import com.mindhub.product_service.models.ProductEntity;
@@ -49,18 +50,23 @@ public class ProductServiceImpl implements ProductService {
         return new ProductEntityDTO(savedProduct);
     }
 
-    public List<ProductEntityDTO> deductStock(JsonNode orderItemsJson) {
+    @Override
+    public List<ProductEntityDTO> deductStock(List<OrderItemDTO> orderItemDTOs) {
         List<ProductEntity> products = new ArrayList<>();
 
-        for (JsonNode orderItem : orderItemsJson) {
-            Long productId = orderItem.path("productId").asLong();
-            int quantity = orderItem.path("quantity").asInt();
+        for (OrderItemDTO orderItem : orderItemDTOs) {
+            Long productId = orderItem.getProductId();
+            int quantity = orderItem.getQuantity();
 
             ProductEntity product = productRepository.findById(productId)
-                    .orElseThrow(() -> new ProductNotFoundException("Product not found: " + productId));
+                    .orElseThrow(() -> new ProductNotFoundException(
+                            "Product not found: " + productId)
+                    );
 
             if (product.getStock() < quantity) {
-                throw new InsufficientStockException("Insufficient stock for product: " + productId);
+                throw new InsufficientStockException(
+                        "Insufficient stock for product: " + productId
+                );
             }
 
             product.setStock(product.getStock() - quantity);
@@ -68,9 +74,10 @@ public class ProductServiceImpl implements ProductService {
         }
 
         productRepository.saveAll(products);
-        return products.stream().map(product ->
-                new ProductEntityDTO(product)
-        ).toList();
+        return products
+                .stream()
+                .map(item -> new ProductEntityDTO(item))
+                .toList();
     }
 
     @Override

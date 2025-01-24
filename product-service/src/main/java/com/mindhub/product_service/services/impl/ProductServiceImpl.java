@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,11 +32,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntityDTO> getProductsById(List<Long> ids) {
-        List<ProductEntity> products = productRepository.findAllById(ids); // Fetch products from DB
-        return products.stream()
-                .map(product -> new ProductEntityDTO(product))
-                .toList();
+    public Optional<List<ProductEntityDTO>> getProductsById(List<Long> ids) {
+        return productRepository.findAllById(ids)
+                .stream()
+                .map(ProductEntityDTO::new)
+                .toList()
+                .stream()
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of));
     }
 
     @Override

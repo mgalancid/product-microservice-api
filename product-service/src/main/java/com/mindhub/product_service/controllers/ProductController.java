@@ -42,8 +42,9 @@ public class ProductController {
 
     @GetMapping(value = "/products", params = "ids")
     public ResponseEntity<List<ProductEntityDTO>> getProductsByIds(@RequestParam List<Long> ids) {
-        List<ProductEntityDTO> products = productService.getProductsById(ids);
-        return ResponseEntity.ok(products);
+        return productService.getProductsById(ids)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/stock")

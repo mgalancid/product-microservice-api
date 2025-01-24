@@ -5,9 +5,9 @@ import com.mindhub.product_service.models.ProductEntity;
 public class ProductEntityDTO {
     private final Long id;
     private final String name;
-    private String description;
-    private Double price;
-    private Integer stock;
+    private final String description;
+    private final Double price;
+    private final Integer stock;
 
     public ProductEntityDTO(ProductEntity product) {
         this.id = product.getId();

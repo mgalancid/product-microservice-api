@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -33,10 +34,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Optional<List<ProductEntityDTO>> getProductsById(List<Long> ids) {
-        return productRepository.findAllById(ids)
-                .stream()
+        return productRepository.findAllById(ids).stream()
                 .map(ProductEntityDTO::new)
-                .toList()
+                .collect(Collectors.toList())
                 .stream()
                 .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of));
     }
@@ -107,6 +107,10 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductEntity findByName(String name) {
         return productRepository.findByName(name);
+    }
+
+    public List<ProductEntity> findAllByIdIn(List<Long> ids) {
+        return productRepository.findAllByIdIn(ids);
     }
 }
 

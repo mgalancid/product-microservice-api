@@ -40,7 +40,7 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @GetMapping(value = "/products", params = "ids")
+    @GetMapping(params = "ids")
     public ResponseEntity<List<ProductEntityDTO>> getProductsByIds(@RequestParam List<Long> ids) {
         return productService.getProductsById(ids)
                 .map(ResponseEntity::ok)

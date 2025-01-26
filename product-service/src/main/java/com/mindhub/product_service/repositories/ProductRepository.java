@@ -9,4 +9,5 @@ public interface ProductRepository extends JpaRepository <ProductEntity, Long> {
     ProductEntity findByName(String name);
     boolean existsById(Long id);
     boolean existsByStock(Integer stock);
+    List<ProductEntity> findAllByIdIn(List<Long> ids);
 }
